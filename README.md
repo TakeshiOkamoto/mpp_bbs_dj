@@ -55,7 +55,7 @@ from django.core.management.utils import get_random_secret_key
 get_random_secret_key()
 exit()
 ```
-表示された値をSECRET_KEYに設定します。  
+表示された50文字の値をSECRET_KEYに設定します。  
 
 ### マイグレーション
 ```rb
