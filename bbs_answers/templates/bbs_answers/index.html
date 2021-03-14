@@ -1,0 +1,108 @@
+{% extends 'layouts/bbs_layout.html' %}
+
+{% load nbsp %}
+
+{% block title %}{{ question.title }} - {{ lang_type.name }}{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'bbs_main:index' %}">トップ</a></li> 
+    <li class="breadcrumb-item"><a href="{% url 'bbs_questions:index' %}?lang_id={{ lang_type.id }}">{{ lang_type.name }}</a></li> 
+    <li class="breadcrumb-item active">{{ question.title }}</li>     
+  </ol> 
+</nav>    
+<p></p>
+
+<h1>{{ question.title }}</h1>
+{% if question.resolved == True %}
+<span class="badge badge-success">解決</span> 
+{% endif %}
+<p></p>
+
+{% for item in items %}
+  <hr style="margin-bottom:5px;background-color:#c0c0c0;">
+  <div class="clearfix mb-2">
+    <div class="float-left">
+      <span class="font-weight-bold text-primary">{{ item.name }}</span>
+      {% if item.url != '' %}
+        <span>&nbsp;</span><span><a href="{{ item.url }}" class="badge badge-info">URL</a></span>
+      {% endif %}
+      <span>&nbsp;</span><span>{{ item.updated_at|date:'Y-m-d H:i:s' }}</span>
+      <span class="pc">
+        <span>&nbsp;No: </span> 
+        <span>{{ item.id }}</span>
+      </span>  
+      {% if 'name' in request.session %}
+        <span>&nbsp;IP: </span> 
+        <span>[{{ item.ip }}]</span>
+      {% endif %}
+    </div>    
+  </div>
+  <div class="clearfix">
+    <div class="float-none"></div>  
+  </div>  
+  <p>{{ item.body|nbsp|linebreaksbr|urlize }}</p>
+  {% if 'name' in request.session %}
+    <span><a href="{% url 'bbs_answers:edit' item.id %}" class="btn btn-primary">編集</a></span>
+    &nbsp;&nbsp;
+    <span><a href="#" onclick="ajax_delete('「No.{{ item.id }}」を削除します。よろしいですか？','{% url 'bbs_answers:delete' item.id %}','{% url 'bbs_answers:index' %}?question_id={{ question.id }}');return false;" class="btn btn-danger">削除</a></span>
+  {% endif %}  
+{% endfor %}
+
+<hr style="margin-bottom:5px;background-color:#c0c0c0;"> 
+<p></p>
+
+<form action="{% url 'bbs_answers:index' %}?question_id={{ question.id}}" method="post">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="answer_name">名前</label>
+    {% if form.name.errors.as_text == '' %}
+      <input type="text" class="form-control" id="answer_name" name="name" value="{{ form.name.value }}">
+    {% else %}
+      <input type="text" class="form-control is-invalid" id="answer_name" name="name" value="{{ form.name.value }}">
+      <div class="text-danger" style="font-size:90%">{{ form.name.errors.as_text }}</div>
+    {%endif%}
+  </div>    
+  
+  <div class="form-group">
+    <label for="answer_url">ホームページ(ブログ、Twitterなど)のURL (省略可)</label>
+    {% if form.url.errors.as_text == '' %}
+      <input type="text" class="form-control" id="answer_url" name="url" value="{{ form.url.value }}">
+    {% else %}
+      <input type="text" class="form-control is-invalid" id="answer_url" name="url" value="{{ form.url.value }}">
+      <div class="text-danger" style="font-size:90%">{{ form.url.errors.as_text }}</div>
+    {%endif%}
+  </div>  
+  
+  <div class="form-group">
+    <label for="answer_body">本文</label>
+    {% if form.body.errors.as_text == '' %}
+      <textarea name="body" class="form-control" id="answer_body" rows="5">{{ form.body.value }}</textarea>
+    {% else %}
+      <textarea name="body" class="form-control is-invalid" maxlength="512" id="answer_body" rows="5">{{ form.body.value }}</textarea>
+      <div class="text-danger" style="font-size:90%">{{ form.body.errors.as_text }}</div>
+    {%endif%}
+  </div>     
+  <div class="form-check">
+    <label for="question_resolved">
+      <input type="checkbox" class="form-check-input" id="question_resolved" name="resolved" value="1">
+      ←解決時は質問者本人がここをチェックしてください。
+    </label>
+    <p></p>
+  </div>
+  <br>
+  <input type="submit" value="返信する"  class="btn btn-primary" onclick="DisableButton(this);">
+</form>
+
+<br>
+
+<p></p>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'bbs_main:index' %}">トップ</a></li> 
+    <li class="breadcrumb-item"><a href="{% url 'bbs_questions:index' %}?lang_id={{ lang_type.id }}">{{ lang_type.name }}</a></li> 
+    <li class="breadcrumb-item active">{{ question.title }}</li>     
+  </ol> 
+</nav>    
+{% endblock %} 

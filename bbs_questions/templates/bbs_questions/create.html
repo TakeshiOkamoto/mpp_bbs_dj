@@ -1,0 +1,73 @@
+{% extends 'layouts/bbs_layout.html' %}
+
+{% block title %}新規質問の作成 - {{ lang_type.name }}{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'bbs_main:index' %}">トップ</a></li> 
+    <li class="breadcrumb-item"><a href="{% url 'bbs_questions:index' %}?lang_id={{ lang_type.id }}">{{ lang_type.name }}</a></li>     
+    <li class="breadcrumb-item active">新規質問の作成</li> 
+  </ol> 
+</nav>    
+<p></p>
+<h1>新規質問の作成 - {{ lang_type.name }}</h1>
+<p></p>
+
+<form action="{% url 'bbs_questions:create' %}?lang_id={{ lang_type.id}}" method="post">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="question_title">タイトル</label>
+    {% if form_A.title.errors.as_text == '' %}
+      <input type="text" class="form-control" id="question_title" name="title" value="{{ form_A.title.value }}">
+    {% else %}
+      <input type="text" class="form-control is-invalid" id="question_title" name="title" value="{{ form_A.title.value }}">
+      <div class="text-danger" style="font-size:90%">{{ form_A.title.errors.as_text }}</div>
+    {% endif %}
+  </div>     
+  
+  <div class="form-group">
+    <label for="answer_name">名前</label>
+    {% if form_B.name.errors.as_text == '' %}
+      <input type="text" class="form-control" id="answer_name" name="name" value="{{ form_B.name.value }}">
+    {% else %}
+      <input type="text" class="form-control is-invalid" id="answer_name" name="name" value="{{ form_B.name.value }}">
+      <div class="text-danger" style="font-size:90%">{{ form_B.name.errors.as_text }}</div>
+    {% endif %}
+  </div>    
+  
+  <div class="form-group">
+    <label for="answer_url">ホームページ(ブログ、Twitterなど)のURL (省略可)</label>
+    {% if form_B.url.errors.as_text == '' %}
+      <input type="text" class="form-control" id="answer_url" name="url" value="{{ form_B.url.value }}">
+    {% else %}
+      <input type="text" class="form-control is-invalid" id="answer_url" name="url" value="{{ form_B.url.value }}">
+      <div class="text-danger" style="font-size:90%">{{ form_B.url.errors.as_text }}</div>
+    {% endif %}
+  </div>  
+  
+  <div class="form-group">
+    <label for="answer_body">本文</label>
+    {% if form_B.body.errors.as_text == '' %}
+      <textarea name="body" class="form-control" id="answer_body" rows="5">{{ form_B.body.value }}</textarea>
+    {% else %}
+      <textarea name="body" class="form-control is-invalid" maxlength="512" id="answer_body" rows="5">{{ form_B.body.value }}</textarea>
+      <div class="text-danger" style="font-size:90%">{{ form_B.body.errors.as_text }}</div>
+    {% endif %}
+  </div>     
+
+  <input type="submit" value="作成する"  class="btn btn-primary" onclick="DisableButton(this);">
+</form>
+
+<p></p>
+<a href="{% url 'bbs_questions:index' %}?lang_id={{ lang_type.id }}">戻る</a>
+<p></p>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'bbs_main:index' %}">トップ</a></li> 
+    <li class="breadcrumb-item"><a href="{% url 'bbs_questions:index' %}?lang_id={{ lang_type.id }}">{{ lang_type.name }}</a></li>     
+    <li class="breadcrumb-item active">新規質問の作成</li> 
+  </ol> 
+</nav>    
+<p></p>
+{% endblock %}    

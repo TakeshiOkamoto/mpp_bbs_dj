@@ -1,0 +1,19 @@
+{% extends 'layouts/bbs_layout.html' %}
+
+{% block title %}カテゴリ - 管理画面{% endblock %}
+
+{% block content %}
+<p></p>
+<h1>新規登録</h1>
+<p></p>
+
+<form action="{% url 'bbs_lang_types:create' %}" method="post">
+  {% csrf_token %}
+  {% include 'bbs_langtypes/_form.html' %}
+  <input type="submit" value="登録する"  class="btn btn-primary">
+</form>
+
+<p></p>
+<a href="{% url 'bbs_lang_types:index' %}">戻る</a>
+<p></p>
+{% endblock %}    

@@ -1,0 +1,94 @@
+{% extends 'layouts/bbs_layout.html' %}
+
+{% block title %}{{ lang_type.name }}{% endblock %}
+{% block keywords %}{{ lang_type.keywords }}{% endblock %}
+{% block description %}{{ lang_type.description }}{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'bbs_main:index' %}">トップ</a></li> 
+    <li class="breadcrumb-item active">{{ lang_type.name }}</li> 
+  </ol> 
+</nav>    
+<p></p>
+<h1>{{ lang_type.name }}</h1>
+<p></p>
+<form action="{% url 'bbs_questions:index' %}" method="get" class="mb-5">
+  <input type="hidden" name="lang_id" value="{{ lang_type.id}}">
+  <div class="form-group row">
+    <label for="question_title" class="col-sm-2 col-form-label">タイトル</label>
+    <div class="col-sm-10">
+      <input type="search" class="form-control" id="question_title" name="title" placeholder="キーワードを入力 ※複数可" value="{{ form.title.value }}">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="answer_body" class="col-sm-2 col-form-label">本文</label>
+    <div class="col-sm-10">
+      <input type="search" class="form-control" id="answer_body" name="body" placeholder="キーワードを入力 ※複数可" value="{{ form.body.value }}">
+    </div>  
+  </div>
+
+  <input type="submit" value="検索" class="btn btn-outline-primary">
+</form>  
+<p></p>
+<a href="{% url 'bbs_questions:create' %}?lang_id={{ lang_type.id }}" class="btn btn-primary">質問を新規作成する</a>
+<p></p>
+
+{% include 'pagination.html' %}
+
+<p></p>
+<table class="table table-hover">
+  <thead class="thead-default">
+    <tr>
+        <th class="text-center" style="width: 65px;">状態</th>    
+        <th>タイトル</th>
+        <th class="pc" style="width:120px;">更新日時</th>
+        <th class="text-center pc" style="width: 80px;">件数</th>
+        <th class="text-center pc" style="width: 90px;">閲覧数</th>   
+        {% if 'name' in request.session %}
+          <th style="width: 110px;"></th> 
+        {% endif %}
+    </tr>
+  </thead>
+  <tbody>  
+    {% for item in items %}
+    <tr>
+      {% if item.question.resolved == True %}    
+        <td><span class="badge badge-success">解決</span></td>
+      {% else %}
+        <td></td>
+      {% endif %}
+
+      <td>
+        <div>
+          <div><a href="{% url 'bbs_answers:index' %}?question_id={{ item.id }}">{{ item.question.title }}</a></div>
+          {%if item.cnt == '1' %}
+            <div class="text-muted" style="font-size:90%">質問者 {{ item.name1 }}</div>
+          {% else %}
+            <div class="text-muted" style="font-size:90%">質問者 {{ item.name1 }} 最終発言者 {{ item.name2 }}</div>
+          {% endif %}
+        </div>
+      </td>
+      <td class="pc">{{ item.question.updated_at|date:'Y/m/d H:i:s' }}</td>
+      <td class="text-center pc">{{ item.cnt }}</td>
+      <td class="text-center pc">{{ item.pv }}</td> 
+      {% if 'name' in request.session %}
+        <td><a href="#" onclick="ajax_delete('「{{ item.question.title|addslashes }}」を削除します。よろしいですか？','{% url 'bbs_questions:delete' item.id %}','{% url 'bbs_questions:index' %}?lang_id={{ lang_type.id }}');return false;" class="btn btn-danger">削除</a></td>
+      {% endif %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<p></p>
+
+{% include 'pagination.html' %}
+
+<p></p>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'bbs_main:index' %}">トップ</a></li> 
+    <li class="breadcrumb-item active">{{ lang_type.name }}</li> 
+  </ol> 
+</nav>
+{% endblock %} 

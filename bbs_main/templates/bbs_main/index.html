@@ -1,0 +1,37 @@
+{% extends 'layouts/bbs_layout.html' %}
+
+{% block title %}掲示板システム{% endblock %}
+{% block keywords %}キーワード{% endblock %}
+{% block description %}説明{% endblock %}
+
+{% block content %}
+<p></p>
+<table class="table table-hover">
+  <thead class="thead-default">
+    <tr>
+        <th>カテゴリ</th>    
+        <th class="text-center pc">質問数</th>
+        <th class="text-center pc">コメント数</th>
+        <th class="text-center pc">回答率</th> 
+        <th class="text-center pc">解決率</th>  
+        <th class="text-center pc">閲覧数</th>  
+    </tr>  
+  </thead>
+  
+  <tbody>
+     {% for item in items %}
+       {% if item.show == 1 %}
+       <tr>
+         <td><a href="{% url 'bbs_questions:index' %}?lang_id={{item.id }}">{{ item.name }}</a></td>
+         <td class="text-center pc">{{ item.A }}</td>
+         <td class="text-center pc">{{ item.B }}</td>
+         <td class="text-center pc">{{ item.C }}</td>
+         <td class="text-center pc">{{ item.D }}</td>
+         <td class="text-center pc">{{ item.E }}</td>
+       </tr>
+       {% endif %}
+     {% endfor %}
+  </tbody>
+</table>
+<p></p>
+{% endblock %}    

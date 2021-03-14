@@ -1,0 +1,48 @@
+{% extends 'layouts/bbs_layout.html' %}
+
+{% block title %}カテゴリ - 管理画面{% endblock %}
+
+{% block content %}
+<p></p>
+<h1>{{ item.name }}</h1>
+<p></p>
+
+<p>
+  <strong>ID : </strong>
+  {{ item.id }}
+</p>
+
+<p>
+  <strong>キーワード : </strong>
+  {{ item.keywords }}
+</p>
+
+<p>
+  <strong>説明 : </strong>
+  {{ item.description }}
+</p>
+
+<p>
+  <strong>ソート : </strong>
+  {{ item.sort }}
+</p>
+
+<p>
+  <strong>表示 : </strong>
+  {{ item.show }}
+</p>
+
+<p>
+  <strong>作成日時 : </strong>
+  {{ item.created_at|date:'Y-m-d H:i:s' }}
+</p>
+
+<p>
+  <strong>更新日時 : </strong>
+  {{ item.updated_at|date:'Y-m-d H:i:s'  }}
+</p>
+
+
+<a href="{% url 'bbs_lang_types:edit' item.id %}">編集</a> | <a href="{% url 'bbs_lang_types:index' %}">戻る</a>
+<p></p>
+{% endblock %}    
