@@ -14,7 +14,7 @@ dj = Django
  
 ## 2. インストール方法
 
-### Djangoのバージョン
+### Djangoのインストール
 Django 3.2系です。
 ```rb
 python -m pip install Django==3.2.*
