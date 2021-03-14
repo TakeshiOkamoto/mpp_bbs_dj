@@ -44,7 +44,7 @@ DATABASES = {
 }
 ```
 < SECRET_KEY >  
-本番稼働する際はSECRET_KEYを再生成して下さい。
+本稼働する際はSECRET_KEYを再生成して下さい。
 ```rb
 cd プロジェクトディレクトリ
 python manage.py shell
