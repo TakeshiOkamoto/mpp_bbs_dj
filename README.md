@@ -20,7 +20,8 @@ Django 3.2系です。
 python -m pip install Django==3.2.*
 ```
 
-最新の3.2系は2021年4月公開予定です。公開前は[開発版(ベータなど)](https://code.djangoproject.com/wiki/Version3.2Roadmap)  をインストール可能です。
+※最新の3.2系は2021年4月公開予定です。  
+※次のコマンドで公開前の[開発版(ベータなど)](https://code.djangoproject.com/wiki/Version3.2Roadmap)  をインストール可能です。
 ```rb
 pip install --pre django
 ```
