@@ -1,7 +1,7 @@
 # 掲示板システム
   
 DEMO    
-[https://www.petitmonte.com/django/bbs/](https://www.petitmonte.com/django/bbs/)  
+[https://www.petitmonte.com/ai/bbs/](https://www.petitmonte.com/ai/bbs/)  
   
 [mpp_bbs_djの意味]  
 mpp = My Practice Project  
